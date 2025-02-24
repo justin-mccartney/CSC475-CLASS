@@ -1,0 +1,17 @@
+// Activity Main
+< Layout Type (Relative) 
+    Width
+    Height
+    >
+
+<Text 
+    // layout information
+    // text = "Hello, Android!"
+/>
+
+// Main Activity
+// Imports
+Main Activity Class {
+    // Render info from activity main
+    // Pull layout, and text
+}
