@@ -1,0 +1,47 @@
+FUNCTION onCreate()
+    LOAD main layout
+    INITIALIZE map fragment
+    INITIALIZE fused location provider client
+    SETUP location callback to receive updates
+
+FUNCTION onMapReady(map)
+    STORE reference to the map
+    ENABLE zoom controls on map
+    REQUEST location updates
+
+FUNCTION requestLocationUpdates()
+    IF location permissions are NOT granted THEN
+        REQUEST location permissions from user
+        RETURN
+    ENDIF
+
+CONFIGURE location request:
+    - Interval: 10 seconds
+    - Fastest interval: 5 seconds
+    - Priority: High accuracy
+
+START requesting location updates with locationCallback
+
+FUNCTION locationCallback(locationResult)
+    GET last known location
+    CALL updateLocationOnMap(location)
+
+FUNCTION updateLocationOnMap(location)
+    CONVERT location coordinates to LatLng object
+    IF marker already exists THEN
+        MOVE existing marker to new location
+    ELSE
+        CREATE new marker at current location
+    ENDIF
+    CENTER map camera on the current location with zoom level
+
+FUNCTION onRequestPermissionsResult()
+    IF permission granted THEN
+        CALL requestLocationUpdates()
+    ENDIF
+
+FUNCTION onPause()
+    STOP receiving location updates
+
+FUNCTION onResume()
+    RESUME requesting location updates
