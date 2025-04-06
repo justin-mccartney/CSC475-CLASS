@@ -1,0 +1,46 @@
+FUNCTION onAppLaunch
+    CALL loadContactsFromStorage
+    SET UP UI elements: NameField, PhoneField, AddButton, ContactList
+    DISPLAY all contacts in ContactList
+
+WHEN AddButton is clicked
+    GET name FROM NameField
+    GET phone FROM PhoneField
+
+    IF name AND phone are NOT EMPTY
+        FORMAT contact as "name: phone"
+        ADD contact TO contactList
+        UPDATE ListView with contactList
+        SAVE updated contactList TO storage
+        CLEAR NameField and PhoneField
+    ELSE
+        SHOW error message "Please enter both name and phone"
+
+WHEN user taps on a contact in ContactList
+    DISPLAY dialog with current name and phone in editable fields
+
+    DIALOG OPTIONS:
+        - Save
+            GET new name and phone FROM fields
+            UPDATE selected contact in contactList
+            SAVE updated contactList TO storage
+            REFRESH the ContactList
+
+        - Delete
+            REMOVE selected contact FROM contactList
+            SAVE updated contactList TO storage
+            REFRESH the ContactList
+
+        - Cancel
+            CLOSE dialog without changes
+
+FUNCTION saveContactsToStorage
+    CONVERT contactList TO a Set of Strings
+    STORE Set IN SharedPreferences using a unique key
+
+FUNCTION loadContactsFromStorage
+    RETRIEVE Set of contact Strings FROM SharedPreferences
+    IF Set is NOT EMPTY
+        CONVERT Set TO contactList (a list)
+    ELSE
+        INITIATE contactList as empty
